@@ -16,6 +16,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+
+        // 每小时备份一次数据
+        $schedule->command('back:up')->hourly();
     }
 
     /**
