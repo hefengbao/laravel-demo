@@ -6,6 +6,8 @@ use App\Http\Requests\UserCreateRequest;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -127,5 +129,37 @@ class UserController extends Controller
         $profile->bio = '哈哈~';
         $profile->user()->associate($user);
         $profile->save();
+    }
+
+    public function avatar(Request $request)
+    {
+        /*
+         * store 方法：
+         * 参数1：指定目录
+         * 参数2：指定驱动
+         *
+         * 该方法将生成一个唯一的 ID 作为文件名
+         *
+         * 文件存储在 storage/app/public/avatars/ 目录下
+         */
+        $path = $request->file('avatar')->store('avatars', 'public');
+
+        /*
+         * store 方法：
+         * 参数1：指定目录
+         * 参数2：指定文件名
+         * 参数3：指定驱动
+         *
+         * 文件存储在 storage/app/public/avatars/ 目录下
+         */
+        $path = $request->file('avatar')->storeAs('avatars', Str::random().'.jpg','public');
+
+
+        $path = Storage::putFile('avatars', $request->file('avatar'), 'public');
+
+        $path = Storage::putFileAs('avatars', $request->file('avatar'), Str::random().'.jpg', 'public');
+
+
+        $url = Storage::disk('public')->url($path);
     }
 }
