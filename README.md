@@ -20,3 +20,4 @@
 [Laravel 入门：18-队列](https://www.8ug.icu/articles/laravel-tutorial-18-queues-oOk0OxbngG)
 [Laravel 入门：19-任务调度](https://www.8ug.icu/articles/laravel-tutorial-19-scheduling-4oq0JedyDw)
 [Laravel 入门：20-文件存储](https://www.8ug.icu/articles/laravel-tutorial-20-filesystem-xEVdK21gez)
+[Laravel 入门：21-缓存](https://www.8ug.icu/articles/laravel-tutorial-21-cache-rP6b8W0yqY)
