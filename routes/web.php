@@ -50,3 +50,10 @@ Route::get('mail/post-commented', function (){
 
     //\Illuminate\Support\Facades\Mail::to('')->send(new \App\Mail\PostCommented($comment));
 });
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::middleware(['auth'])->group(function (){
+   // 定义路由
+});
