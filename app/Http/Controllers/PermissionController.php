@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\PostCommented;
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
-class PostController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,14 +23,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        /** @var User $user */
-        $user = $request->user();
+        Permission::create([
+            'name' => 'post:create',
+            'display_name' => '写文章'
+        ]);
 
-        if (!$user->hasAnyPermission('post:create')){
-            abort(403, '您没有权限');
-        }
+        Permission::create([
+            'name' => 'post:edit',
+            'display_name' => '编辑文章'
+        ]);
     }
 
     /**
@@ -42,16 +44,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $user = $request->user();
-
-        $post = $user->post()->create([
-            'title' => $request->input('title'),
-            'body' => $request->input('body')
-        ]);
-
-        $post->tags()->attach($request->input('tagIds'));
-
-        return $post;
+        //
     }
 
     /**
@@ -99,17 +92,11 @@ class PostController extends Controller
         //
     }
 
-    public function comment($id, Request $request)
-    {
-        $post = Post::findOrFail($id);
+    public function roles(Request $request){
+        $permission = Permission::where('name', 'poser:create')->first();
 
-        $comment = $post->comment()->create([
-            'body' => $request->body
-        ]);
+        $role = Role::where('name', 'editor')->first();
 
-        // 触发事件
-        event(new PostCommented($comment));
-
-        return redirect()->route('post.show', $id);
+        $permission->assignRole($role);
     }
 }

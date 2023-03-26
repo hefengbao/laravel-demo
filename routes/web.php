@@ -31,6 +31,11 @@ Route::delete('/users/{id}', [\App\Http\Controllers\UserController::class, 'dest
 
 Route::resource('/users', \App\Http\Controllers\UserController::class);
 
+Route::resource('/permissions', \App\Http\Controllers\PermissionController::class);
+Route::get('/permissions/roles', [\App\Http\Controllers\PermissionController::class, 'roles']);
+Route::resource('/roles', \App\Http\Controllers\RoleController::class);
+Route::get('/roles/permissions', [\App\Http\Controllers\RoleController::class, 'permissions']);
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

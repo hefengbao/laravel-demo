@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserCreateRequest;
 use App\Models\Profile;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -161,5 +162,12 @@ class UserController extends Controller
 
 
         $url = Storage::disk('public')->url($path);
+    }
+
+    public function roles(Request $request){
+        /** @var User $user */
+        $user = User::find(1);
+
+        $user->assignRole(['editor']);
     }
 }
